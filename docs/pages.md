@@ -2,7 +2,7 @@
 
 #### **Common Pages (All Users)**
 
-- **Home Pages** – Displays featured products, categories, and promotions.
+- **Home Page** – Displays featured products, categories, and promotions.
 - **Login/Register Page** – Customers must log in or register before making a purchase.
 - **Forgot Password Page** – Reset password via email.
 
