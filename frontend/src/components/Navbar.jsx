@@ -1,14 +1,30 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-function Navbar() {
+const Navbar = ({ user, setUser }) => {
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
-    <nav>
-      <Link to="/">Home</Link>
-      <Link to="/dashboard">Dashboard</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/register">Register</Link>
+    <nav className="p-4 bg-blue-600 text-white flex justify-between">
+      <Link to="/" className="text-lg font-bold">BuyNest</Link>
+      <div>
+        <Link to="/" className="mx-2">Home</Link>
+        <Link to="/cart" className="mx-2">Cart</Link>
+        {user ? (
+          <>
+            <button onClick={handleLogout} className="mx-2">Logout</button>
+          </>
+        ) : (
+          <>
+            <Link to="/login" className="mx-2">Login</Link>
+            <Link to="/register" className="mx-2">Register</Link>
+          </>
+        )}
+      </div>
     </nav>
   );
-}
+};
 
 export default Navbar;
