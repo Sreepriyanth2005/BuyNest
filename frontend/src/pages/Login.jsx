@@ -6,24 +6,29 @@ const Login = ({ setUser }) => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    // Simple validation check
-    if (!email || !password) {
-      alert("Please enter both email and password!");
-      return;
-    }
+    try {
+      const response = await fetch("http://localhost:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    // Simulate login (You should replace this with actual authentication logic)
-    const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
-    if (storedUser && storedUser.email === email && storedUser.password === password) {
-      localStorage.setItem("user", email);
-      setUser(email);
-      alert("Login successful!");
-      navigate("/");
-    } else {
-      alert("Invalid email or password!");
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem("user", JSON.stringify(data.user));
+        setUser(data.user);
+        alert("Login successful!");
+        navigate("/"); // Redirect to home page
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("An error occurred. Please try again.");
     }
   };
 
