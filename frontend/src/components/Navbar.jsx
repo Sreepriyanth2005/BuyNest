@@ -1,28 +1,42 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = ({ user, setUser, admin, setAdmin }) => {
+  const navigate = useNavigate();
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
+    navigate("/login");
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem("admin");
+    setAdmin(null);
+    navigate("/admin-login");
   };
 
   return (
-    <nav className="p-4 bg-blue-600 text-white flex justify-between">
-      <Link to="/" className="text-lg font-bold">BuyNest</Link>
-      <div>
-        <Link to="/" className="mx-2">Home</Link>
-        <Link to="/cart" className="mx-2">Cart</Link>
-        {user ? (
-          <>
-            <button onClick={handleLogout} className="mx-2">Logout</button>
-          </>
-        ) : (
-          <>
-            <Link to="/login" className="mx-2">Login</Link>
-            <Link to="/register" className="mx-2">Register</Link>
-          </>
-        )}
-      </div>
+    <nav>
+      <Link to="/">Home</Link>
+      <Link to="/cart">Cart</Link>
+
+      {user ? (
+        <button onClick={handleLogout}>Logout</button>
+      ) : (
+        <>
+          <Link to="/login">Login</Link>
+          <Link to="/register">Register</Link>
+        </>
+      )}
+
+      {admin ? (
+        <>
+          <Link to="/admin-dashboard">Admin Panel</Link>
+          <button onClick={handleAdminLogout}>Admin Logout</button>
+        </>
+      ) : (
+        <Link to="/admin-login">Admin Login</Link>
+      )}
     </nav>
   );
 };
